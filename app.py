@@ -23,11 +23,11 @@ ckeditor = CKEditor(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 # New MySQL DB
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:sarik1999@localhost/our_users'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:sarik1999@localhost/our_users'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # POstgress database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vrvxdoqjfgahvv:7b0b61d8ad08e9b4d302b06f8ca364308f8342baaacc4273dc28106eb9545b5a@ec2-52-71-69-66.compute-1.amazonaws.com:5432/d9jt62icvgfpo7'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dgbansbqahikny:460afdc6fc595bca5883708277bf37dea863fa268ab92fc6c5ae1b10ce743fb7@ec2-54-204-56-171.compute-1.amazonaws.com:5432/davf11g7dcnjg5'
 
 UPLOAD_FOLDER = 'static/images/'
 app.config['UPLOde2AD_FOLDER'] = UPLOAD_FOLDER
