@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+{% endfor %}
+
+{% if current_user.is_authenticated %}
+
+    <h1>Blog Posts...</h1>
+    <br/>
+
+        {% for post in posts %}
+         <div class="shadow p-3 mb-5 bg-body rounded">
+        <h2><a href="{{ url_for('post', id=post.id) }}" >{{ post.title }}</a></h2>
+
+
+            <small>By: {{ post.poster.name }}<br/>
+                <small>{{ post.title }}</small>
+                {{ post.date_posted }}<br/></small>
+            <br/>
+
+
+                <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">View Post</a>
+             {% if post.poster_id == current_user.id %}
+                   <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-info btn-sm">Edit Post</a>
+                 <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                <hr><br/>
+
+            {% endif %}
+             </div>
+        {% endfor %}
+{% else %}
+<h1>Blog Posts...</h1>
+<h2>Must Be Logged In....</h2>
+<p>Sorry, You must be logged in to access this page! </p>
+
+<a href="{{ url_for('login') }}" class="btn btn-outline-primary">Login</a>
+{% endif %}
+
+
+{% endblock %}
