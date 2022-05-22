@@ -22,14 +22,44 @@
         <small>{{ post.slug }}<br/>
             {{ post.date_posted }}<br/></small>
         {{ post.content| safe }}<br/><br/>
-<!--        {% if post.poster.about_author %}}-->
-<!--            {{ post.poster.about_author }}-->
-<!--        {% endif %}-->
-    {% if post.poster_id == current_user.id %}
+
+
+<div class="card mb-3">
+    <div class="row no-gutters">
+        <div class="col-md-2">
+            {% if post.poster.profile_pic %}
+                <img src="{{ url_for('static', filename='images/' + post.poster.profile_pic) }}" width="150" align="left">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default_picture.png') }}" width="150" align="left">
+            {% endif %}
+        </div>
+
+        <div class="col-md-10">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ post.poster.name }}
+                                    </h5>
+                    <strong><p class="card-title">
+                        {% if post.poster.about_author %}
+                                {{ post.poster.about_author }}
+                            {% else %}
+                                Author has no about profile yet...
+                            {% endif %}
+                    </p></strong>
+
+        </div>
+    </div>
+    </div>
+</div>
+
+
+    {% if post.poster_id == current_user.id or current_user.id == 1 %}
         <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
         <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-info btn-sm">Edit Post</a>
         <hr><br/>
     {% endif %}
+    </div>
+    </div>
     </div>
 
 <a href="{{ url_for('posts') }}" class="btn btn-secondary btn-sm">Back to Blog</a>

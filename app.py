@@ -147,7 +147,7 @@ def edit_post(id):
         flash('Post has been updated!')
         return redirect(url_for('post', id=post.id))
 
-    if current_user.id == post.poster_id:
+    if current_user.id == post.poster_id or current_user.id == 1:
         form.title.data = post.title
         # form.author.data = post.author
         form.slug.data = post.slug
@@ -278,7 +278,7 @@ def delete(id):
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
     id = current_user.id
-    if id == post_to_delete.poster.id:
+    if id == post_to_delete.poster.id or id == 1:
 
 
         try:
@@ -376,7 +376,7 @@ def index():
 @login_required
 def admin():
     id = current_user.id
-    if id == 32:
+    if id == 1:
      return render_template("admin.html")
     else:
         flash("Sorry You Must Be Admin To Access Admin Page")

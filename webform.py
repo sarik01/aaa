@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 # Create a Form Class
 class UserForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
-    username = StringField("Username", validators=[DataRequired()])
+    username = StringField("Username", validators=[DataRequired(), Length(min=6, max=20)])
     email = StringField("Email", validators=[Email()])
     favorite_color = StringField("Favorite Color")
     about_author = TextAreaField("About Author")

@@ -85,7 +85,8 @@
     {{ form.favorite_color.label(class="form-label") }}
     {{ form.favorite_color(class="form-control", value=name_to_update.favorite_color) }}
     <br/>
-    <textarea name="about_author" class="form-control">{{ name_to_update.about_author }}</textarea>
+    <label for="1">About Author</label>
+    <textarea name="about_author" id="1" class="form-control">{{ name_to_update.about_author }}</textarea>
         <br/>
     {{ form.profile_pic.label(class="form-label") }}
     {{ form.profile_pic(class="form-control", value=name_to_update.profile_pic) }}
