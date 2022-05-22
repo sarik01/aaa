@@ -316,16 +316,16 @@ def add_user():
             hashed_pw = generate_password_hash(form.password_hash.data, "sha256")
             user = Users(username=form.username.data, name=form.name.data, email=form.email.data, favorite_color=form.favorite_color.data, password_hash=hashed_pw)
 
-            email = form.email.data
-            token = s.dumps(email, salt='email-confirm')
-
-            msg = Message('Confirm Email', sender='sarvar_kamilov@mail.ru', recipients=[email])
-
-            link = url_for('confirm_email', token=token, _external=True)
-
-            msg.body = 'Your link is {}'.format(link)
-
-            mail.send(msg)
+            # email = form.email.data
+            # token = s.dumps(email, salt='email-confirm')
+            #
+            # msg = Message('Confirm Email', sender='sarvar_kamilov@mail.ru', recipients=[email])
+            #
+            # link = url_for('confirm_email', token=token, _external=True)
+            #
+            # msg.body = 'Your link is {}'.format(link)
+            #
+            # mail.send(msg)
 
             db.session.add(user)
             db.session.commit()
