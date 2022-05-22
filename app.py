@@ -30,7 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dgbansbqahikny:460afdc6fc595bca5883708277bf37dea863fa268ab92fc6c5ae1b10ce743fb7@ec2-54-204-56-171.compute-1.amazonaws.com:5432/davf11g7dcnjg5'
 
 UPLOAD_FOLDER = 'static/images/'
-app.config['UPLOde2AD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Secret Key!
 app.config['SECRET_KEY'] = 'huytebe'
@@ -209,29 +209,34 @@ def dashboard():
         name_to_update.email = request.form['email']
         name_to_update.favorite_color = request.form['favorite_color']
         name_to_update.username = request.form['username']
-        name_to_update.profile_pic = request.files['profile_pic']
+
         name_to_update.about_author = request.form['about_author']
 
+        if request.files['profile_pic']:
+            name_to_update.profile_pic = request.files['profile_pic']
+            # Grab Image name
+            pic_filename = secure_filename(name_to_update.profile_pic.filename)
+            # Set UUID
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            # Save That Image
+            saver = request.files['profile_pic']
 
-        # Grab Image name
-        pic_filename = secure_filename(name_to_update.profile_pic.filename)
-        # Set UUID
-        pic_name = str(uuid.uuid1()) + "_" + pic_filename
-        # Save That Image
-        saver = request.files['profile_pic']
+            # Change it to a string to save to db
+            name_to_update.profile_pic = pic_name
 
-        # Change it to a string to save to db
-        name_to_update.profile_pic = pic_name
-
-        try:
-            saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+            try:
+                db.session.commit()
+                saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+                flash("User Updated Successfully!")
+                return render_template("dashboard.html", form=form, name_to_update=name_to_update, id=id)
+            except:
+                flash("Error! Looks like there was a problem ..., try again")
+                return render_template("dashboard.html", form=form, name_to_update=name_to_update)
+        else:
             db.session.commit()
-
             flash("User Updated Successfully!")
             return render_template("dashboard.html", form=form, name_to_update=name_to_update, id=id)
-        except:
-            flash("Error! Looks like there was a problem ..., try again")
-            return render_template("dashboard.html", form=form, name_to_update=name_to_update)
+
     else:
 
         return render_template("dashboard.html", form=form, name_to_update=name_to_update, id=id)
