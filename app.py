@@ -9,15 +9,9 @@ from flask_login import LoginManager, login_required, login_user, current_user, 
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from flask_mail import Mail, Message
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 # Create Flask Instance
 app = Flask(__name__)
-
-app.config.from_pyfile('config.cfg')
-mail = Mail(app)
-s = URLSafeTimedSerializer('hertebe')
 
 
 
@@ -315,22 +309,8 @@ def add_user():
             # Hash the password:
             hashed_pw = generate_password_hash(form.password_hash.data, "sha256")
             user = Users(username=form.username.data, name=form.name.data, email=form.email.data, favorite_color=form.favorite_color.data, password_hash=hashed_pw)
-
-            # email = form.email.data
-            # token = s.dumps(email, salt='email-confirm')
-            #
-            # msg = Message('Confirm Email', sender='sarvar_kamilov@mail.ru', recipients=[email])
-            #
-            # link = url_for('confirm_email', token=token, _external=True)
-            #
-            # msg.body = 'Your link is {}'.format(link)
-            #
-            # mail.send(msg)
-
             db.session.add(user)
             db.session.commit()
-
-            return '<h1>Confirm your Email</h1>'
 
         name = form.name.data
         form.name.data = ''
@@ -341,15 +321,6 @@ def add_user():
         flash("User Added Successfully!")
     our_users = Users.query.order_by(Users.date_added)
     return render_template('add_user.html', form=form, name=name, our_users=our_users)
-
-@app.route('/confirm_email/<token>')
-def confirm_email(token):
-    try:
-        email = s.loads(token, salt='email-confirm', max_age=3600)
-    except SignatureExpired:
-        return '<h1>The token is expired!</h1>'
-    flash("Now You Can Login!")
-    return redirect(url_for('login'))
 
 
 # Create name page
