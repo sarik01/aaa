@@ -248,22 +248,25 @@ def posts():
 @app.route('/delete/<int:id>')
 @login_required
 def delete(id):
-    user_to_delete = Users.query.get_or_404(id)
-    name = None
-    form = UserForm()
+    if id == current_user.id:
+        user_to_delete = Users.query.get_or_404(id)
+        name = None
+        form = UserForm()
 
 
-    try:
-        db.session.delete(user_to_delete)
-        db.session.commit()
-        flash('User Deleted Successfully!')
-        # our_users = Users.query.order_by(Users.date_added)
-        return render_template('add_user.html', form=form, name=name, id=id)
+        try:
+            db.session.delete(user_to_delete)
+            db.session.commit()
+            flash('User Deleted Successfully!')
+            # our_users = Users.query.order_by(Users.date_added)
+            return render_template('add_user.html', form=form, name=name, id=id)
 
-    except:
-        flash("Whoops! There was a problem deleting user, try again....")
-        return render_template('add_user.html', form=form, name=name, id=id)
-
+        except:
+            flash("Whoops! There was a problem deleting user, try again....")
+            return render_template('add_user.html', form=form, name=name, id=id)
+    else:
+        flash("Sorry, You can't Delete This User! ")
+        redirect(url_for('dashboard'))
 
 @app.route('/post/delete-post/<int:id>')
 @login_required
