@@ -9,13 +9,19 @@ from flask_login import LoginManager, login_required, login_user, current_user, 
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
+from flask_caching import Cache
+from random import randint
 
 # Create Flask Instance
 app = Flask(__name__)
+cache = Cache(config={"CACHE_TYPE":"RedisCache", "CACHE_REDIS_HOST":"127.0.0.1", "CACHE_REDIS_PORT":"6379"})
+# cache = Cache(config={"CACHE_TYPE":"SimpleCache"})
+cache.init_app(app)
 
 
 
-# rrfe=f
+
+
 
 # Add Ck Editor
 ckeditor = CKEditor(app)
@@ -161,6 +167,7 @@ def edit_post(id):
 
 # Create Login Page
 @app.route('/login', methods=['POST', 'GET'])
+
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -323,6 +330,11 @@ def add_user():
     return render_template('add_user.html', form=form, name=name, our_users=our_users)
 
 
+@app.route('/rand')
+@cache.cached(timeout=10)
+def rand():
+    return f"number is {randint(10, 100)}"
+
 # Create name page
 
 @app.route('/name', methods=['GET', 'POST'])
@@ -330,6 +342,7 @@ def add_user():
 def name():
     name = None
     form = NamerForm()
+
     # Validate Form
     if form.validate_on_submit():
         name = form.name.data

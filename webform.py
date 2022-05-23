@@ -43,7 +43,7 @@ class LoginForm(FlaskForm):
 class UserForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     username = StringField("Username", validators=[DataRequired(), Length(min=6, max=20)])
-    email = StringField("Email", validators=[Email()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
     favorite_color = StringField("Favorite Color")
     about_author = TextAreaField("About Author")
     password_hash = PasswordField('Password', validators=[DataRequired(), EqualTo('password_hash2', message='Password Must Mutch')])
