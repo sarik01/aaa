@@ -9,14 +9,14 @@ from flask_login import LoginManager, login_required, login_user, current_user, 
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from flask_caching import Cache
+# from flask_caching import Cache
 from random import randint
 
 # Create Flask Instance
 app = Flask(__name__)
-cache = Cache(config={"CACHE_TYPE":"RedisCache", "CACHE_REDIS_HOST":"127.0.0.1", "CACHE_REDIS_PORT":"6379"})
+# cache = Cache(config={"CACHE_TYPE":"RedisCache", "CACHE_REDIS_HOST":"127.0.0.1", "CACHE_REDIS_PORT":"6379"})
 # cache = Cache(config={"CACHE_TYPE":"SimpleCache"})
-cache.init_app(app)
+# cache.init_app(app)
 
 
 
@@ -331,7 +331,7 @@ def add_user():
 
 
 @app.route('/rand')
-@cache.cached(timeout=10)
+# @cache.cached(timeout=10)
 def rand():
     return f"number is {randint(10, 100)}"
 
