@@ -171,7 +171,6 @@ def edit_post(id):
 
 # Create Login Page
 @app.route('/login', methods=['POST', 'GET'])
-
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -186,7 +185,7 @@ def login():
                 flash("Wrong Password - Try Again!")
         else:
             flash("That User Doesn't Exist! Try Again...")
-    return render_template('admin_login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 # Create Logout Page
