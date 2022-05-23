@@ -11,6 +11,7 @@ import uuid as uuid
 import os
 # from flask_caching import Cache
 from random import randint
+from admin.admin import admin
 
 # Create Flask Instance
 app = Flask(__name__)
@@ -32,6 +33,9 @@ ckeditor = CKEditor(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:sarik1999@localhost/our_users'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Blueprint register
+app.register_blueprint(admin, url_prefix='/admin')
 
 # POstgress database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dgbansbqahikny:460afdc6fc595bca5883708277bf37dea863fa268ab92fc6c5ae1b10ce743fb7@ec2-54-204-56-171.compute-1.amazonaws.com:5432/davf11g7dcnjg5'
@@ -182,7 +186,7 @@ def login():
                 flash("Wrong Password - Try Again!")
         else:
             flash("That User Doesn't Exist! Try Again...")
-    return render_template('login.html', form=form)
+    return render_template('admin_login.html', form=form)
 
 
 # Create Logout Page
@@ -423,7 +427,7 @@ class Posts(db.Model):
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
     # author = db.Column(db.String(255))
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow())
+    date_posted = db.Column(db.DateTime, default=datetime.now())
     slug = db.Column(db.String(255))
     # Foreign Key To Link Users( refer to primary_key of The User)
     poster_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -436,7 +440,7 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
     about_author = db.Column(db.Text(), nullable=True)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow())
+    date_added = db.Column(db.DateTime, default=datetime.now())
     # DO Some Password Stuff!
     password_hash = db.Column(db.String(128))
     # User Can Have Many Posts

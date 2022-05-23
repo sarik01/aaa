@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+
+<h1>Login Admin!</h1>
+
+<br/><br/>
+
+<form method="post">
+    <label for="userid">Login</label>
+    <input type="text" name="user" id="userid">
+    <label for="pwid">Password</label>
+    <input type="text" name="pw" id="pwid">
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
+
+<br/><br/>
